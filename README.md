@@ -43,7 +43,7 @@ Output: `extension/js/content.js` (JS + CSS inlined).
 
 ### Option A: From GitHub Releases (recommended)
 
-1. Open `https://github.com/timedoorpalembang/journal-prompt-generator/releases`.
+1. Open [`https://github.com/timedoorpalembang/journal-prompt-generator/releases`](https://github.com/timedoorpalembang/journal-prompt-generator/releases)
 2. Download `extension.zip` from the latest release.
 3. Extract it (it contains an `extension/` folder with `manifest.json` + `js/content.js`).
 4. Open `chrome://extensions`, enable Developer mode.
