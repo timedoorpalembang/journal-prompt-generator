@@ -1,15 +1,9 @@
-import React, {
-  useEffect,
-  useState,
-  type Dispatch,
-  type SetStateAction,
-} from "react";
+import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { MdArrowDropDown, MdCopyAll, MdCheck } from "react-icons/md";
 import "./index.css";
 
 const ROOT_ID = "my-generate-journal-root";
-const BUTTON_ID = "my-generate-journal-button";
 const INP_TEACHER_NOTE_SEL = '[data-pw="input-teacher-note"]';
 const INP_ACTIVE_PROJECT_NAME_SEL = '[data-pw="input-project-name"]';
 const CRAETE_JOURNAL_PAGE =
@@ -210,12 +204,10 @@ function TextModal({
   isOpen,
   onClose,
   text,
-  title = "Text Preview",
 }: {
   isOpen: boolean;
   onClose: () => void;
   text: string;
-  title: string;
 }) {
   const [copied, setCopied] = useState(false);
 
@@ -358,7 +350,6 @@ function JournalButton() {
   return (
     <>
       <TextModal
-        title="Prompt"
         isOpen={modal.isOpen}
         onClose={() => setModal((old) => ({ ...old, isOpen: false }))}
         text={modal.text}

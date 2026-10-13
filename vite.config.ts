@@ -5,7 +5,7 @@ import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
 export default defineConfig({
   plugins: [react(), cssInjectedByJsPlugin()],
   build: {
-    outDir:"../extension/js",
+    outDir:"./extension/js",
     rollupOptions: {
       output: {
         entryFileNames: "content.js"
