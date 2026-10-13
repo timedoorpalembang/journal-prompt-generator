@@ -1,0 +1,258 @@
+#my-generate-journal-root {
+  display: flex;
+  margin: 0 0 12px 0;
+}
+
+.my-generate-journal-button {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+
+
+.my-generate-journal-button button,
+.dropdown {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+
+
+  background: #18181b;
+  color: #f4f4f5;
+
+  border: 1px solid #3f3f46;
+
+  font:
+    500 14px/1.4 system-ui,
+    sans-serif;
+  letter-spacing: 0.01em;
+
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.dropdown {
+  position: relative;
+  flex: 2;
+  padding: 0;
+  align-self: stretch;
+  border-radius: 0 10px 10px 0;
+}
+
+.dropdown.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.dropdown span {
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 180px;
+  background: #18181b;
+  color: #f4f4f5;
+
+  border: 1px solid #3f3f46;
+
+  font:
+    500 14px/1.4 system-ui,
+    sans-serif;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  z-index: 1000;
+}
+
+.dropdown-menu span {
+  display: block;
+  padding: 10px 14px;
+}
+
+.dropdown-menu span:hover {
+  background: #f4f4f5;
+  color: #18181b;
+}
+
+.my-generate-journal-button button {
+  flex: 8;
+  border-radius: 10px 0 0 10px;
+  padding: 12px 20px;
+}
+
+.my-generate-journal-button button:hover:not(:disabled) {
+  background: #27272a;
+  border-color: #52525b;
+}
+
+.my-generate-journal-button button:active:not(:disabled) {
+  background: #09090b;
+  transform: scale(0.99);
+}
+
+.my-generate-journal-button button:focus-visible {
+  outline: 2px solid #a1a1aa;
+  outline-offset: 3px;
+}
+
+.my-generate-journal-button button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.my-generate-journal-button button.is-loading {
+  cursor: wait;
+}
+
+/* MODAL */
+
+.text-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background: rgb(0 0 0 / 65%);
+}
+
+.text-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  width: 50%;
+  max-height: 80vh;
+  padding: 20px;
+
+  color: #f4f4f5;
+  background: #18181b;
+  border: 1px solid #3f3f46;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgb(0 0 0 / 35%);
+}
+
+@media (max-width: 480px) {
+  .text-modal {
+    width: 100%;
+  }
+}
+
+.text-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.text-modal-header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.text-modal-close {
+  padding: 2px 8px;
+  color: #a1a1aa;
+  background: transparent;
+  border: none;
+  font-size: 26px;
+  cursor: pointer;
+}
+
+.text-modal-content {
+  flex: 1;
+  min-height: 100px;
+  max-height: 50vh;
+  overflow: auto;
+
+  margin: 0;
+  padding: 14px;
+
+  color: #d4d4d8;
+  background: #09090b;
+  border: 1px solid #27272a;
+  border-radius: 8px;
+
+  font: 13px/1.6 monospace;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.text-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.text-modal-copy {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 38px;
+  padding: 0 8px;
+  gap: 4px;
+
+  color: #f4f4f5;
+  background: transparent;
+  border: 1px solid #3f3f46;
+  border-radius: 8px;
+
+  cursor: pointer;
+  transition: background-color 160ms ease;
+}
+
+.text-modal-copy:hover {
+  background: #3f3f46;
+}
+
+.text-modal-copy:focus-visible {
+  outline: 2px solid #60a5fa;
+  outline-offset: 3px;
+}
+
+.text-modal-footer button {
+  padding: 9px 14px;
+  border-radius: 7px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.text-modal-secondary {
+  color: #e4e4e7;
+  background: #27272a;
+  border: 1px solid #3f3f46;
+}
+
+.text-modal-footer button:hover {
+  filter: brightness(1.15);
+}
+
+.text-modal-footer button:focus-visible,
+.text-modal-close:focus-visible {
+  outline: 2px solid #60a5fa;
+  outline-offset: 3px;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .generate-prompt-btn {
+    transition: none;
+  }
+}
