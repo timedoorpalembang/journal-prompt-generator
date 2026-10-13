@@ -1,75 +1,57 @@
-# React + TypeScript + Vite
+# Timedoor Journal Prompt
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Chrome extension (Manifest V3) that adds a `Generate Prompt` button on the Timedoor CMS journal page. It collects student, meeting, teacher note, project, and lesson context and builds a copy-ready AI prompt in Indonesian (ID) or English (EN).
 
-Currently, two official plugins are available:
+Source lives here in `generate-prompt/`. Build output is `extension/` (`extension/manifest.json` + `extension/js/content.js`).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- Injects Generate Prompt button + ID/EN dropdown on `cms.timedooracademy.com/tms/student/*/session/*/session-history/*/meeting/*`.
+- Button enabled only when teacher note is non-empty; language persists in `localStorage` (`promptLang`).
+- Reads IDs from URL, teacher note / project name from page DOM, `access_token` from cookies.
+- Fetches student, meeting histories, activities, and current meeting from CMS API, left-joins meetings with activities.
+- Builds prompt in `src/main.tsx:121`: student nickname, current meeting, teacher note, active project, lessons with objectives / progress / quiz scores.
+- Shows modal with Copy to Clipboard, Esc / overlay-click to close. SPA-aware via `MutationObserver`.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Structure
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```text
+src/main.tsx  # all logic + UI
+src/index.css # button / dropdown / modal styles
+extension/manifest.json # MV3 manifest, content_scripts -> js/content.js
+extension/js/content.js # built bundle (do not edit)
+vite.config.ts # builds to ./extension/js/content.js as single file
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+## Development
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```powershell
+npm install
+npm run dev
+npm run lint
 ```
+
+## Build
+
+```powershell
+npm run build
+```
+
+Output: `extension/js/content.js` (JS + CSS inlined).
+
+## Install
+
+1. `npm run build`
+2. Open `chrome://extensions`, enable Developer mode.
+3. Load unpacked -> select `extension/`.
+4. Open a CMS meeting journal URL.
+
+## Usage
+
+1. Fill teacher note.
+2. Click Generate Prompt (pick ID/EN first if needed).
+3. Copy prompt from modal.
+
+## Permissions
+
+`storage`, `clipboardWrite`, `activeTab`, `scripting`; host `https://cms.timedooracademy.com/*`; content script `run_at: document_idle`.
