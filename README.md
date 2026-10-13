@@ -41,6 +41,19 @@ Output: `extension/js/content.js` (JS + CSS inlined).
 
 ## Install
 
+### Option A: From GitHub Releases (recommended)
+
+1. Open `https://github.com/timedoorpalembang/journal-prompt-generator/releases`.
+2. Download `extension.zip` from the latest release.
+3. Extract it (it contains an `extension/` folder with `manifest.json` + `js/content.js`).
+4. Open `chrome://extensions`, enable Developer mode.
+5. Load unpacked -> select the extracted `extension/` folder.
+6. Open a CMS meeting journal URL.
+
+To update: download the newer `extension.zip`, replace the extracted folder, then click Reload on the extension in `chrome://extensions`.
+
+### Option B: From source
+
 1. `npm run build`
 2. Open `chrome://extensions`, enable Developer mode.
 3. Load unpacked -> select `extension/`.
