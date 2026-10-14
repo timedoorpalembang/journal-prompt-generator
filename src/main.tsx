@@ -123,15 +123,50 @@ function buildPrompt(ctx: any, lang: string) {
 
   if (lang === "ID") {
     lines.push(
-      `Buat ringkasan jurnal harian (catatan) untuk kelas coding Timedoor Academy dalam bahasa Indonesia.`,
+      `Buat jurnal harian pembelajaran coding Timedoor Academy dalam bahasa Indonesia berdasarkan data siswa, catatan guru, dan riwayat pembelajaran yang diberikan.`,
     );
     lines.push(
-      "Gaya bahasa: ringkas dan spesifik. Sebutkan apa yang dipelajari hari ini, indikator kemajuan/nilai, dan langkah selanjutnya.",
+      "Gaya penulisan: Profesional, natural, ringkas, jelas, spesifik, dan konstruktif.",
     );
     lines.push(
-      "JANGAN mengarang nilai atau materi pelajaran yang tidak tercantum. Pertahankan makna catatan guru.",
+      "Gunakan sudut pandang laporan guru tentang pembelajaran dan perkembangan siswa.",
     );
-    lines.push("Maksimal 3 paragraf dan maksimal 200 karakter per paragraf.");
+    lines.push(
+      "Jelaskan materi yang dipelajari, kemampuan yang ditunjukkan, serta aktivitas yang dilakukan pada pertemuan ini.",
+    );
+    lines.push(
+      "Gunakan lesson sebelumnya sebagai referensi untuk memperkaya evaluasi jika relevan.",
+    );
+    lines.push(
+      "Struktur output: Buat 1–3 paragraf sesuai kebutuhan. Jangan memaksakan semua aspek ke dalam setiap jurnal.",
+    );
+    lines.push(
+      "Pembelajaran: Jelaskan materi atau keterampilan yang dipelajari berdasarkan lesson dan catatan guru.",
+    );
+    lines.push(
+      "Evaluasi kemampuan: Jelaskan kelancaran belajar, kemampuan yang ditunjukkan, atau kebutuhan bimbingan jika didukung oleh catatan guru atau data yang tersedia. Riwayat lesson sebelumnya boleh digunakan untuk memberikan konteks yang relevan.",
+    );
+    lines.push(
+      "Aktivitas latihan atau proyek: Jika siswa melakukan latihan atau mengembangkan proyek, jelaskan aktivitas dan fitur yang dikerjakan secara spesifik. Jika pertemuan hanya berfokus pada pembelajaran materi, jangan menambahkan aktivitas proyek.",
+    );
+    lines.push(
+      "Langkah selanjutnya: Sebutkan rencana berikutnya jika tercantum dalam catatan guru. Jika tidak tersedia, berikan rekomendasi yang relevan hanya jika bermanfaat. Jangan membuat rekomendasi sekadar untuk memenuhi struktur.",
+    );
+    lines.push("Aturan penting:");
+    lines.push(
+      `
+      Prioritaskan catatan guru untuk pertemuan saat ini dan pertahankan maknanya.
+      Gunakan riwayat pembelajaran hanya sebagai referensi, bukan bukti bahwa siswa menguasai seluruh materi sebelumnya.
+      Jangan mengarang materi, aktivitas, nilai kuis, persentase kemajuan, tingkat kemampuan, kemandirian, kesulitan, atau perilaku siswa.
+      Cantumkan nilai kuis atau persentase kemajuan hanya jika tersedia untuk pertemuan saat ini dan relevan untuk laporan.
+      Bedakan fakta yang tercatat dari rekomendasi atau saran.
+      Jika catatan guru singkat, kembangkan penjelasan dengan konteks materi sebelumnya yang relevan tanpa menambahkan fakta baru.
+      Gunakan istilah teknis coding yang sesuai, seperti Tilemap, behavior, variable, event sheet, respawn, dan collectible item.
+      Hindari pengulangan, pujian berlebihan, dan kalimat umum yang tidak memberikan informasi berarti.
+      Setiap paragraf maksimal 500 karakter.
+      Tulis hanya jurnal akhir tanpa judul, bullet point, atau penjelasan tambahan.
+      `,
+    );
 
     if (ctx.student) lines.push(`Nama siswa: ${ctx.student.nickname || ""}`);
 
@@ -150,7 +185,6 @@ function buildPrompt(ctx: any, lang: string) {
         .slice(0, parseInt(ctx.currentMeeting.name.split(" ")[1]))
         .forEach((m: any) => {
           lines.push(`- [${m.name}] ${m.date}`);
-
           m.activities.forEach((a: any) => {
             lines.push(
               `└── ${a.content ?? "?"} | tujuan: ${(a.objectives || []).join("; ")} | persentase kemajuan: ${a.progress_percentage ?? "?"} | nilai kuis: ${a.value ?? "?"}`,
@@ -162,23 +196,64 @@ function buildPrompt(ctx: any, lang: string) {
     }
   } else if (lang === "EN") {
     lines.push(
-      `Write a daily journal summary (note) for a Timedoor Academy coding class in English language.`,
+      `Write a daily coding learning journal for Timedoor Academy in English, based on the provided student data, teacher's notes, and learning history.`,
     );
     lines.push(
-      "Tone: concise, specific. Mention what was learned today, progress/score signals, and next step.",
+      "Writing style: Professional, natural, concise, clear, specific, and constructive.",
     );
     lines.push(
-      "Do NOT invent scores or lessons not listed. Keep Teacher note meaning.",
+      "Write from the teacher's perspective, describing the student's learning experience and progress.",
     );
-    lines.push("<=3 paragraphs and <=200 characters per paragraph.");
+    lines.push(
+      "Explain the material learned, skills demonstrated, and activities completed during the current meeting.",
+    );
+    lines.push(
+      "Use previous lessons as references to enrich the evaluation when relevant.",
+    );
+    lines.push(
+      "Output structure: Write 1–3 paragraphs as appropriate. Do not force every aspect into every journal entry.",
+    );
+    lines.push(
+      "Learning: Describe the material or skills learned based on the lesson and teacher's notes.",
+    );
+    lines.push(
+      "Skills evaluation: Describe the student's learning progress, demonstrated abilities, or need for additional guidance only when supported by the teacher's notes or available data. Previous lessons may be used to provide relevant context.",
+    );
+    lines.push(
+      "Practice or project activities: If the student practiced skills or worked on a project, describe the activities and features developed specifically. If the meeting focused only on learning new material, do not invent project activities.",
+    );
+    lines.push(
+      "Next steps: Mention the next steps if they are included in the teacher's notes. Otherwise, provide relevant recommendations only when useful. Do not add recommendations merely to fill the structure.",
+    );
+    lines.push("Important rules:");
+    lines.push(
+      `
+  Prioritize the teacher's notes for the current meeting and preserve their original meaning.
+  Use learning history only as a reference, not as proof that the student has mastered all previously covered material.
+  Do not invent learning materials, activities, quiz scores, progress percentages, skill levels, independence, difficulties, or student behavior.
+  Include quiz scores or progress percentages only when they are available for the current meeting and relevant to the report.
+  Clearly distinguish recorded facts from recommendations or suggestions.
+  If the teacher's notes are brief, expand the explanation using relevant context from previous lessons without introducing unsupported facts.
+  Use appropriate coding terminology, such as Tilemap, behavior, variable, event sheet, respawn, and collectible item.
+  Avoid repetition, excessive praise, and generic statements that provide little meaningful information.
+  Each paragraph must contain no more than 500 characters.
+  Output only the final journal entry, without headings, bullet points, or additional explanations.
+  `,
+    );
+
     if (ctx.student) lines.push(`Student name: ${ctx.student.nickname || ""}`);
+
     if (ctx.currentMeeting)
       lines.push(`Current meeting: ${ctx.currentMeeting.name || ""}`);
+
     if (ctx.teacherNote) lines.push(`Teacher note: ${ctx.teacherNote || ""}`);
+
     if (ctx.activeProject)
       lines.push(`Active project: ${JSON.stringify(ctx.activeProject) || ""}`);
+
     if (ctx.allMeetings?.length) {
       lines.push("All meetings and lessons learned:");
+
       ctx.allMeetings
         .slice(0, parseInt(ctx.currentMeeting.name.split(" ")[1]))
         .forEach((m: any) => {
